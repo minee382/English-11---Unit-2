@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEN-GAP 2.0 // UNIT 2 FULL VOCABULARY ARENA</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Orbitron & Rajdhani & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#080c14',
+                            card: '#0f172a',
+                            border: '#1e293b',
+                            cyan: '#00f0ff',
+                            purple: '#8b5cf6',
+                            pink: '#ec4899',
+                            yellow: '#eab308',
+                            green: '#10b981'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #060911;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+            color: #f3f4f6;
+            user-select: none;
+        }
+
+        .neon-border-cyan {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.05);
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00f0ff;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased overflow-x-hidden">
+
+    <header class="sticky top-0 z-50 bg-slate-950/85 backdrop-blur-md border-b border-cyan-500/20 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('flashcards')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center font-orbitron font-extrabold text-black text-xl shadow-lg shadow-cyan-500/30">
+                    G2
+                </div>
+                <div>
+                    <h1 class="font-orbitron font-black text-lg tracking-wider bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
+                        GEN-GAP 2.0 // FULL ARENA
+                    </h1>
+                    <p class="text-xs font-rajdhani text-gray-400 font-semibold tracking-widest uppercase">
+                        Unit 2: The Generation Gap (Đầy đủ 65+ từ vựng Tờ 05)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Player Status HUD -->
+            <div class="flex items-center gap-4 bg-slate-900/90 border border-slate-800 rounded-2xl px-4 py-2 shadow-inner">
+                <div class="text-right">
+                    <div class="text-xs font-orbitron text-cyan-400 font-bold flex items-center gap-1 justify-end">
+                        <i class="fa-solid fa-shield-halved text-purple-400"></i>
+                        <span id="playerRankTitle">CYBER NOVICE</span>
+                    </div>
+                    <div class="text-xs text-gray-400 font-rajdhani font-bold">
+                        LVL <span id="playerLevel" class="text-white text-sm font-extrabold">1</span>
+                    </div>
+                </div>
+
+                <div class="w-28 sm:w-36">
+                    <div class="flex justify-between text-[10px] text-gray-400 font-bold mb-1">
+                        <span>XP</span>
+                        <span id="xpText">0 / 100</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                        <div id="xpBar" class="bg-gradient-to-r from-cyan-400 to-purple-500 h-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-2.5 py-1 rounded-xl text-xs font-orbitron font-bold">
+                    <i class="fa-solid fa-fire text-amber-500 text-sm animate-bounce"></i>
+                    <span id="streakCount">0</span>
+                </div>
+
+                <button id="soundToggleBtn" onclick="toggleSound()" class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-cyan-400 hover:text-white transition">
+                    <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="max-w-7xl mx-auto w-full px-4 mt-4">
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 bg-slate-900/80 p-1.5 rounded-2xl border border-slate-800/80">
+            <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn active flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-rajdhani font-bold text-sm transition-all duration-300 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 shadow-lg shadow-cyan-500/20">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>FLASHCARDS</span>
+            </button>
+            
+            <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-rajdhani font-bold text-sm text-gray-400 hover:text-white hover:bg-slate-800/60 transition-all duration-300">
+                <i class="fa-solid fa-bolt text-yellow-400"></i>
+                <span>SPEED QUIZ</span>
+            </button>
+
+            <button onclick="switchTab('match')" id="tab-match" class="tab-btn flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-rajdhani font-bold text-sm text-gray-400 hover:text-white hover:bg-slate-800/60 transition-all duration-300">
+                <i class="fa-solid fa-gamepad text-pink-500"></i>
+                <span>CYBER MATCH</span>
+            </button>
+
+            <button onclick="switchTab('grammar')" id="tab-grammar" class="tab-btn flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-rajdhani font-bold text-sm text-gray-400 hover:text-white hover:bg-slate-800/60 transition-all duration-300">
+                <i class="fa-solid fa-microchip text-purple-400"></i>
+                <span>MODAL LAB</span>
+            </button>
+
+            <button onclick="switchTab('dictionary')" id="tab-dictionary" class="tab-btn col-span-2 sm:col-span-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-rajdhani font-bold text-sm text-gray-400 hover:text-white hover:bg-slate-800/60 transition-all duration-300">
+                <i class="fa-solid fa-book-open text-emerald-400"></i>
+                <span>SỔ TAY (65+ TỪ)</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 flex flex-col justify-center">
+
+        <!-- SECTION 1: FLASHCARDS -->
+        <section id="view-flashcards" class="view-section w-full max-w-3xl mx-auto flex flex-col items-center">
+            
+            <div class="w-full flex flex-wrap items-center justify-between gap-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-rajdhani font-bold text-gray-400 uppercase tracking-wider">Chủ đề:</span>
+                    <select id="flashcardFilter" onchange="filterFlashcards()" class="bg-slate-900 border border-cyan-500/40 rounded-xl px-3 py-1.5 text-xs font-semibold text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                        <option value="all">⚡ Tất Cả Từ Vựng Tờ 05 (65+ Từ & Cụm)</option>
+                        <option value="family">👨‍👩‍👧‍👦 Gia Đình & Thế Hệ</option>
+                        <option value="tech">💻 Kỹ Thuật Số & Lối Sống</option>
+                        <option value="views">🧠 Quan Điểm & Xung Đột</option>
+                        <option value="phrases">🔗 Cụm Từ & Collocations</option>
+                        <option value="mastered">⭐ Đã Thành Thục</option>
+                    </select>
+                </div>
+                <div class="text-xs font-orbitron text-gray-400">
+                    CARD <span id="currentCardIdx" class="text-cyan-400 font-bold">1</span> / <span id="totalCardsCount">0</span>
+                </div>
+            </div>
+
+            <!-- 3D Flashcard Container -->
+            <div class="w-full h-[450px] perspective-1000 cursor-pointer group" onclick="flipCard()">
+                <div id="flashcardInner" class="w-full h-full relative transform-style-3d rounded-3xl border border-cyan-500/30 bg-slate-900/90 neon-border-cyan p-6 flex flex-col justify-between transition-transform duration-500">
+                    
+                    <!-- FRONT SIDE OF CARD -->
+                    <div class="absolute inset-0 backface-hidden p-6 flex flex-col justify-between bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-950 rounded-3xl">
+                        <div class="flex items-center justify-between z-10">
+                            <span id="cardCategoryTag" class="px-3 py-1 rounded-full text-[10px] font-orbitron font-bold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+                                CATEGORY
+                            </span>
+                            <button onclick="speakCurrentWord(event)" class="w-11 h-11 rounded-2xl bg-cyan-500/20 hover:bg-cyan-500 border border-cyan-500/40 hover:text-black text-cyan-300 flex items-center justify-center transition shadow-lg shadow-cyan-500/20">
+                                <i class="fa-solid fa-volume-high text-lg"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex flex-col items-center justify-center my-auto text-center gap-3">
+                            <div id="cardIllustration" class="w-40 h-40 rounded-2xl overflow-hidden border-2 border-cyan-400 shadow-xl shadow-cyan-500/20 relative group bg-slate-950">
+                                <img id="cardImage" src="" alt="Vocabulary Illustration" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511895426328-dc8714191300?w=500&auto=format&fit=crop';">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none"></div>
+                            </div>
+
+                            <h2 id="cardWord" class="text-2xl sm:text-3xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-cyan-400 tracking-wide">
+                                GENERATION GAP
+                            </h2>
+
+                            <div class="flex items-center gap-2">
+                                <span id="cardPos" class="italic text-xs font-semibold text-purple-400 px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20">
+                                    noun
+                                </span>
+                                <span id="cardIpa" class="text-sm font-sans text-gray-400 font-mono">
+                                    /ˌdʒen.əˈreɪ.ʃən ˌɡæp/
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="text-center text-xs font-rajdhani font-bold text-gray-500 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-rotate text-cyan-400 animate-spin"></i>
+                            <span>CHẠM ĐỂ XEM NGHĨA VÀ VÍ DỤ</span>
+                        </div>
+                    </div>
+
+                    <!-- BACK SIDE OF CARD -->
+                    <div class="absolute inset-0 backface-hidden rotate-y-180 p-6 flex flex-col justify-between bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-950 rounded-3xl border border-purple-500/40">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-orbitron text-purple-400 font-bold">ĐÁP ÁN & VÍ DỤ</span>
+                            <button onclick="speakCurrentWord(event)" class="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center hover:bg-purple-500 hover:text-black transition">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                        </div>
+
+                        <div class="my-auto space-y-4 text-left">
+                            <div>
+                                <span class="text-xs text-gray-400 font-semibold uppercase block mb-1">Nghĩa Tiếng Việt:</span>
+                                <h3 id="cardVietMeaning" class="text-2xl font-bold text-pink-400 font-rajdhani">
+                                    Khoảng cách thế hệ
+                                </h3>
+                            </div>
+
+                            <div class="bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800">
+                                <span class="text-xs text-cyan-400 font-bold font-orbitron block mb-1">
+                                    <i class="fa-solid fa-quote-left mr-1"></i> Ví dụ minh họa:
+                                </span>
+                                <p id="cardExampleEn" class="text-sm text-gray-200 italic font-medium">
+                                    "Educational games can help bridge the generation gap in families."
+                                </p>
+                                <p id="cardExampleVi" class="text-xs text-gray-400 mt-1 font-sans">
+                                    (Các trò chơi giáo dục có thể giúp thu hẹp khoảng cách thế hệ trong gia đình.)
+                                </p>
+                            </div>
+
+                            <div id="cardWordFamilyContainer" class="hidden text-xs text-gray-300 bg-purple-950/30 p-2.5 rounded-xl border border-purple-500/20">
+                                <span class="font-bold text-purple-300">Họ từ (Word family):</span>
+                                <span id="cardWordFamily" class="ml-1 text-gray-300">generate (v), generation (n)</span>
+                            </div>
+                        </div>
+
+                        <div class="text-center text-xs text-gray-500 font-bold">
+                            <span>CHẠM ĐỂ QUAY TRỞ LẠI TỪ VỰNG</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Card Controls -->
+            <div class="w-full flex items-center justify-between gap-4 mt-6">
+                <button onclick="prevCard()" class="flex-1 py-3 px-4 rounded-2xl bg-slate-900 border border-slate-700 text-cyan-400 hover:border-cyan-500 font-rajdhani font-bold text-base flex items-center justify-center gap-2 transition hover:bg-slate-800">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>TỪ TRƯỚC</span>
+                </button>
+
+                <button id="masteredBtn" onclick="toggleMasteredCurrentWord()" class="py-3 px-5 rounded-2xl bg-amber-500/10 border border-amber-500/40 text-amber-400 hover:bg-amber-500 hover:text-black font-rajdhani font-bold text-sm flex items-center gap-2 transition">
+                    <i class="fa-regular fa-star text-lg" id="masteredStarIcon"></i>
+                    <span id="masteredBtnText">THÀNH THỤC</span>
+                </button>
+
+                <button onclick="nextCard()" class="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 hover:brightness-110 font-rajdhani font-extrabold text-base flex items-center justify-center gap-2 transition shadow-lg shadow-cyan-500/20">
+                    <span>TỪ TIẾP</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- SECTION 2: SPEED QUIZ ARENA -->
+        <section id="view-quiz" class="view-section hidden w-full max-w-3xl mx-auto flex flex-col items-center">
+            
+            <div id="quizStartScreen" class="w-full bg-slate-900/90 border border-cyan-500/30 rounded-3xl p-8 text-center flex flex-col items-center gap-6 neon-border-cyan">
+                <div class="w-20 h-20 rounded-2xl bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center text-cyan-400 text-4xl">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-orbitron font-black text-white mb-2">ĐẤU TRƯỜNG SPEED QUIZ</h2>
+                    <p class="text-sm text-gray-300 font-sans max-w-md">
+                        Thử thách phản xạ nhanh với đầy đủ từ vựng & cấu trúc Tờ 05! Trả lời đúng để tích lũy XP.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 w-full max-w-md text-center">
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <div class="text-xs text-gray-400">Thời gian</div>
+                        <div class="text-lg font-orbitron font-bold text-cyan-400">15s / Câu</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <div class="text-xs text-gray-400">Phần thưởng</div>
+                        <div class="text-lg font-orbitron font-bold text-amber-400">+20 XP</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                        <div class="text-xs text-gray-400">Thử thách</div>
+                        <div class="text-lg font-orbitron font-bold text-pink-400">10 Câu</div>
+                    </div>
+                </div>
+
+                <button onclick="startQuizGame()" class="w-full max-w-md py-4 rounded-2xl bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-black font-orbitron font-black text-lg hover:scale-105 transition duration-300 shadow-xl shadow-cyan-500/30">
+                    BẮT ĐẦU THỬ THÁCH <i class="fa-solid fa-play ml-2"></i>
+                </button>
+            </div>
+
+            <div id="quizPlayScreen" class="hidden w-full flex flex-col gap-4">
+                <div class="flex items-center justify-between bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                    <div class="flex items-center gap-2 font-orbitron font-bold text-sm text-gray-300">
+                        <span>CÂU:</span>
+                        <span id="quizCurrentNum" class="text-cyan-400 text-lg">1</span> / 10
+                    </div>
+
+                    <div class="flex items-center gap-1.5 bg-amber-500/20 border border-amber-500/40 text-amber-300 px-3 py-1 rounded-xl font-orbitron font-bold text-xs">
+                        <i class="fa-solid fa-fire text-amber-400"></i>
+                        <span>COMBO x<span id="quizComboNum">0</span></span>
+                    </div>
+
+                    <div class="flex items-center gap-2 font-orbitron font-bold text-pink-400">
+                        <i class="fa-solid fa-clock"></i>
+                        <span id="quizTimerText" class="text-xl">15</span>s
+                    </div>
+                </div>
+
+                <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+                    <div id="quizTimerBar" class="bg-gradient-to-r from-cyan-400 to-pink-500 h-full w-full transition-all duration-1000 linear"></div>
+                </div>
+
+                <div class="bg-slate-900/90 border border-cyan-500/30 rounded-3xl p-6 min-h-[160px] flex flex-col justify-center text-center shadow-xl">
+                    <p id="quizQuestionText" class="text-lg sm:text-xl font-bold font-sans text-gray-100 leading-relaxed">
+                        Loading Question...
+                    </p>
+                </div>
+
+                <div id="quizOptionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                </div>
+            </div>
+
+            <div id="quizResultScreen" class="hidden w-full bg-slate-900/90 border border-purple-500/40 rounded-3xl p-8 text-center flex flex-col items-center gap-6">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-4xl text-white shadow-2xl shadow-purple-500/50">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+
+                <div>
+                    <h2 class="text-3xl font-orbitron font-black text-white">HOÀN THÀNH TRẬN ĐẤU!</h2>
+                    <p class="text-gray-400 text-sm mt-1">Kết quả chiến đấu của bạn tại Cyber Arena</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 w-full max-w-md">
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                        <div class="text-xs text-gray-400">Chính xác</div>
+                        <div id="resAccuracy" class="text-xl font-orbitron font-bold text-green-400">0%</div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                        <div class="text-xs text-gray-400">Số câu đúng</div>
+                        <div id="resScore" class="text-xl font-orbitron font-bold text-cyan-400">0 / 10</div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                        <div class="text-xs text-gray-400">XP Nhận Được</div>
+                        <div id="resXpGained" class="text-xl font-orbitron font-bold text-amber-400">+0 XP</div>
+                    </div>
+                </div>
+
+                <button onclick="startQuizGame()" class="w-full max-w-md py-3.5 rounded-2xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-orbitron font-black text-base transition">
+                    CHƠI LẠI TRẬN KHÁC <i class="fa-solid fa-rotate-right ml-2"></i>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- SECTION 3: CYBER MATCH -->
+        <section id="view-match" class="view-section hidden w-full max-w-4xl mx-auto flex flex-col items-center">
+            
+            <div class="w-full flex items-center justify-between mb-4 bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                <div>
+                    <h2 class="text-lg font-orbitron font-bold text-pink-400 flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad"></i> CYBER MATCH
+                    </h2>
+                    <p class="text-xs text-gray-400">Ghép cặp từ Tiếng Anh với Nghĩa Tiếng Việt tương ứng!</p>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <span class="text-[10px] text-gray-400 uppercase font-bold block">ĐIỂM SỐ</span>
+                        <span id="matchScore" class="text-xl font-orbitron font-black text-cyan-400">0</span>
+                    </div>
+                    <button onclick="initMatchGame()" class="px-3 py-2 rounded-xl bg-pink-500/20 border border-pink-500/40 text-pink-300 font-rajdhani font-bold text-xs hover:bg-pink-500 hover:text-black transition">
+                        <i class="fa-solid fa-arrows-rotate mr-1"></i> VÁN MỚI
+                    </button>
+                </div>
+            </div>
+
+            <div id="matchGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 w-full">
+            </div>
+        </section>
+
+
+        <!-- SECTION 4: MODAL VERBS LAB -->
+        <section id="view-grammar" class="view-section hidden w-full max-w-3xl mx-auto flex flex-col gap-6">
+            
+            <div class="bg-slate-900/90 border border-purple-500/30 rounded-3xl p-6 shadow-xl">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-orbitron font-bold text-white">MODAL VERBS LAB (ĐỘNG TỪ KHUYẾT THIẾU)</h2>
+                        <p class="text-xs text-gray-400">Ôn tập ngữ pháp Tờ 05: Must, Have to, Should, Ought to, Mustn't, Don't have to</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs mt-4">
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-cyan-500/30">
+                        <span class="font-orbitron font-bold text-cyan-400 block mb-1">MUST / MUSTN'T</span>
+                        <p class="text-gray-300">Bắt buộc chủ quan (Must) hoặc <strong>cấm đoán tuyệt đối</strong> (Mustn't).</p>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-purple-500/30">
+                        <span class="font-orbitron font-bold text-purple-400 block mb-1">HAVE TO / DON'T HAVE TO</span>
+                        <p class="text-gray-300">Bắt buộc do quy định khách quan (Have to) hoặc <strong>không bắt buộc</strong> (Don't have to).</p>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-amber-500/30">
+                        <span class="font-orbitron font-bold text-amber-400 block mb-1">SHOULD / OUGHT TO</span>
+                        <p class="text-gray-300">Lời khuyên nên làm gì đó nhẹ nhàng, phù hợp văn hóa gia đình.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <span class="text-sm font-orbitron font-bold text-cyan-400">
+                        THỰC HÀNH CÂU ĐỀ THI TỜ 05 (<span id="grammarCurrentIdx">1</span>/<span id="grammarTotalCount">0</span>)
+                    </span>
+                    <span id="grammarStatusTag" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 text-gray-400 font-bold">
+                        Chưa trả lời
+                    </span>
+                </div>
+
+                <p id="grammarQuestionPrompt" class="text-base sm:text-lg font-bold text-gray-100 leading-relaxed font-sans">
+                    Loading grammar challenge...
+                </p>
+
+                <div id="grammarOptionsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                </div>
+
+                <div id="grammarExplanationBox" class="hidden bg-slate-950 p-4 rounded-2xl border border-cyan-500/30 space-y-2">
+                    <div class="flex items-center gap-2 text-cyan-400 font-bold text-xs font-orbitron">
+                        <i class="fa-solid fa-circle-info"></i> GIẢI THÍCH CHI TIẾT:
+                    </div>
+                    <p id="grammarExplanationText" class="text-xs text-gray-300 leading-relaxed">
+                        Explanation...
+                    </p>
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="prevGrammar()" class="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 hover:text-white text-xs font-bold font-rajdhani">
+                        <i class="fa-solid fa-chevron-left mr-1"></i> CÂU TRƯỚC
+                    </button>
+                    <button onclick="nextGrammar()" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-orbitron font-bold">
+                        CÂU TIẾP THEO <i class="fa-solid fa-chevron-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SECTION 5: DICTIONARY & ACHIEVEMENTS -->
+        <section id="view-dictionary" class="view-section hidden w-full max-w-4xl mx-auto flex flex-col gap-6">
+            
+            <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
+                    <div>
+                        <h2 class="text-xl font-orbitron font-bold text-white">SỔ TAY TỪ VỰNG TỜ SỐ 05 (ĐẦY ĐỦ 65+ TỪ)</h2>
+                        <p class="text-xs text-gray-400">Danh sách toàn bộ từ vựng, từ loại và cấu trúc collocations trong tài liệu</p>
+                    </div>
+
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-500 text-xs"></i>
+                        <input type="text" id="vocabSearchInput" oninput="renderDictionaryList()" placeholder="Tìm từ vựng hoặc nghĩa..." class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500">
+                    </div>
+                </div>
+
+                <div class="max-h-[500px] overflow-y-auto pr-1">
+                    <div id="dictListContainer" class="space-y-2">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-auto border-t border-slate-900 bg-slate-950 py-4 text-center text-xs text-gray-500">
+        <p>GEN-GAP 2.0 // Grade 11 English Unit 2 Full Supplement App (Global Success - Sheet 05)</p>
+    </footer>
+
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!gameState.soundEnabled) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'flip') {
+                    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.1);
+                } else if (type === 'correct') {
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.2);
+                } else if (type === 'level') {
+                    osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.4);
+                }
+            } catch (e) {
+                console.log("Audio not supported or blocked", e);
+            }
+        }
+
+        const VOCAB_DATA = [
+            {
+                id: 'gen_gap',
+                word: 'generation gap',
+                ipa: '/ˌdʒen.əˈreɪ.ʃən ˌɡæp/',
+                pos: 'noun phrase',
+                viet: 'Khoảng cách thế hệ',
+                category: 'views',
+                exampleEn: 'Educational games can help bridge the generation gap in modern families.',
+                exampleVi: 'Các trò chơi giáo dục có thể giúp thu hẹp khoảng cách thế hệ trong gia đình hiện đại.',
+                wordFamily: 'generate (v), generator (n), generation (n), generational (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'gen_diff',
+                word: 'generational difference',
+                ipa: '/dʒen.əˈreɪ.ʃən.əl ˈdɪf.ər.əns/',
+                pos: 'noun phrase',
+                viet: 'Sự khác biệt giữa các thế hệ',
+                category: 'views',
+                exampleEn: 'Generational differences often cause conflicts regarding career choices.',
+                exampleVi: 'Sự khác biệt giữa các thế hệ thường gây ra xung đột về lựa chọn nghề nghiệp.',
+                wordFamily: 'differ (v), different (adj), difference (n), differentiate (v)',
+                imageUrl: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'belief',
+                word: 'belief',
+                ipa: '/bɪˈliːf/',
+                pos: 'noun',
+                viet: 'Niềm tin, tín ngưỡng, quan điểm',
+                category: 'views',
+                exampleEn: 'Older generations hold strong beliefs about traditional family roles.',
+                exampleVi: 'Các thế hệ trước giữ niềm tin mạnh mẽ về vai trò truyền thống trong gia đình.',
+                wordFamily: 'believe (v), believable (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1507692049790-de58290a4334?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'behavior',
+                word: 'behavior',
+                ipa: '/bɪˈheɪ.vjər/',
+                pos: 'noun',
+                viet: 'Hành vi, cách cư xử',
+                category: 'views',
+                exampleEn: 'Parents often complain about their children\'s behavior at school or home.',
+                exampleVi: 'Cha mẹ thường phàn nàn về hành vi của con cái ở trường hoặc ở nhà.',
+                wordFamily: 'behave (v), behavioral (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'nuclear_fam',
+                word: 'nuclear family',
+                ipa: '/ˌnuː.kliː.ɚ ˈfæm.əl.i/',
+                pos: 'noun phrase',
+                viet: 'Gia đình 2 thế hệ (Bố mẹ & con cái)',
+                category: 'family',
+                exampleEn: 'In a nuclear family, decisions are usually made faster.',
+                exampleVi: 'Trong gia đình 2 thế hệ, quyết định thường được đưa ra nhanh hơn.',
+                wordFamily: 'family (n), familiar (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'ext_fam',
+                word: 'extended family',
+                ipa: '/ɪkˌsten.dɪd ˈfæm.əl.i/',
+                pos: 'noun phrase',
+                viet: 'Đại gia đình (Nhiều thế hệ sống chung)',
+                category: 'family',
+                exampleEn: 'Living in an extended family means sharing daily life with grandparents.',
+                exampleVi: 'Sống trong đại gia đình nghĩa là chia sẻ cuộc sống hàng ngày với ông bà.',
+                wordFamily: 'extend (v), extension (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'argument',
+                word: 'argument',
+                ipa: '/ˈɑːrɡ.jə.mənt/',
+                pos: 'noun',
+                viet: 'Cuộc tranh luận, sự cãi nhau',
+                category: 'views',
+                exampleEn: 'Teenagers often have arguments with their parents over screen time.',
+                exampleVi: 'Thanh thiếu niên thường cãi nhau với cha mẹ về thời gian dùng màn hình.',
+                wordFamily: 'argue (v), argumentative (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'gender_eq',
+                word: 'gender equality',
+                ipa: '/ˈdʒen.dɚ iˈkwɑː.lə.t̬i/',
+                pos: 'noun phrase',
+                viet: 'Bình đẳng giới',
+                category: 'views',
+                exampleEn: 'Gender equality is important for modern family life.',
+                exampleVi: 'Bình đẳng giới rất quan trọng đối với cuộc sống gia đình hiện đại.',
+                wordFamily: 'gender (n), equal (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'conflict',
+                word: 'conflict',
+                ipa: '/ˈkɑːn.flɪkt/',
+                pos: 'noun / verb',
+                viet: 'Sự xung đột, mâu thuẫn',
+                category: 'views',
+                exampleEn: 'Talking openly can prevent family conflict.',
+                exampleVi: 'Nói chuyện cởi mở có thể ngăn ngừa xung đột gia đình.',
+                wordFamily: 'conflicting (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'characteristic',
+                word: 'characteristic',
+                ipa: '/ˌker.ək.təˈrɪs.tɪk/',
+                pos: 'noun / adj',
+                viet: 'Đặc điểm, tính chất đặc trưng',
+                category: 'views',
+                exampleEn: 'Every generation has its own unique characteristics.',
+                exampleVi: 'Mỗi thế hệ đều có những đặc điểm riêng biệt.',
+                wordFamily: 'characterize (v), characteristically (adv)',
+                imageUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'quality',
+                word: 'quality',
+                ipa: '/ˈkwɑː.lə.t̬i/',
+                pos: 'noun',
+                viet: 'Chất lượng, phẩm chất',
+                category: 'views',
+                exampleEn: 'Parents should teach life skills, not just focus on academic quality.',
+                exampleVi: 'Bố mẹ nên dạy kỹ năng sống, không chỉ tập trung vào chất lượng học tập.',
+                wordFamily: 'qualify (v), qualification (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'breadwinner',
+                word: 'breadwinner',
+                ipa: '/ˈbredˌwɪn.ɚ/',
+                pos: 'noun',
+                viet: 'Trụ cột gia đình',
+                category: 'family',
+                exampleEn: 'Now both parents can be breadwinners and share household chores.',
+                exampleVi: 'Bây giờ cả bố và mẹ đều có thể làm trụ cột tài chính và chia sẻ việc nhà.',
+                wordFamily: 'win (v), winner (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'common',
+                word: 'common',
+                ipa: '/ˈkɑː.mən/',
+                pos: 'adj',
+                viet: 'Phổ biến, thông thường',
+                category: 'views',
+                exampleEn: 'Misunderstandings between generations are more common than people think.',
+                exampleVi: 'Sự hiểu lầm giữa các thế hệ là phổ biến hơn mọi người nghĩ.',
+                wordFamily: 'commonly (adv)',
+                imageUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'influence',
+                word: 'influence',
+                ipa: '/ˈɪn.flu.əns/',
+                pos: 'noun / verb',
+                viet: 'Sự ảnh hưởng, tác động',
+                category: 'views',
+                exampleEn: 'Grandparents have a deep influence on children\'s moral values.',
+                exampleVi: 'Ông bà có ảnh hưởng sâu sắc đến các giá trị đạo đức của cháu.',
+                wordFamily: 'influential (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'economic',
+                word: 'economic',
+                ipa: '/ˌiː.kəˈnɑː.mɪk/',
+                pos: 'adj',
+                viet: 'Thuộc về kinh tế',
+                category: 'views',
+                exampleEn: 'Our family income depends a lot on the country\'s economic growth.',
+                exampleVi: 'Thu nhập gia đình phụ thuộc nhiều vào sự phát triển kinh tế đất nước.',
+                wordFamily: 'economy (n), economics (n), economist (n), economical (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'social_media',
+                word: 'social media',
+                ipa: '/ˈsoʊ.ʃəl ˈmiː.di.ə/',
+                pos: 'noun phrase',
+                viet: 'Mạng xã hội',
+                category: 'tech',
+                exampleEn: 'Social media helps teens stay connected with their friends.',
+                exampleVi: 'Mạng xã hội giúp thanh thiếu niên giữ kết nối với bạn bè.',
+                wordFamily: 'social (adj), socialize (v), society (n), socialization (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'experience',
+                word: 'life experience',
+                ipa: '/laɪf ɪkˈspɪr.i.əns/',
+                pos: 'noun phrase',
+                viet: 'Kinh nghiệm sống',
+                category: 'views',
+                exampleEn: 'Older people have more life experience to share with teens.',
+                exampleVi: 'Người lớn tuổi có nhiều kinh nghiệm sống hơn để chia sẻ với giới trẻ.',
+                wordFamily: 'experienced (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'critical_thinker',
+                word: 'critical thinker',
+                ipa: '/ˈkrɪt.ɪ.kəl ˈθɪŋ.kɚ/',
+                pos: 'noun phrase',
+                viet: 'Người tư duy phản biện',
+                category: 'views',
+                exampleEn: 'Teens should learn to be critical thinkers, not just follow trends blindly.',
+                exampleVi: 'Thanh thiếu niên nên học cách trở thành người tư duy phản biện.',
+                wordFamily: 'critic (n), criticize (v), critical (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'curious',
+                word: 'curious',
+                ipa: '/ˈkjʊr.i.əs/',
+                pos: 'adj',
+                viet: 'Tò mò, ham hiểu biết',
+                category: 'views',
+                exampleEn: 'My little brother is curious to find out how electronic devices work.',
+                exampleVi: 'Em trai tôi rất tò mò tìm hiểu cách hoạt động của các thiết bị điện tử.',
+                wordFamily: 'curiosity (n), curiously (adv)',
+                imageUrl: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'digital_native',
+                word: 'digital native',
+                ipa: '/ˌdɪdʒ.ɪ.təl ˈneɪ.t̬ɪv/',
+                pos: 'noun phrase',
+                viet: 'Người sinh ra trong kỷ nguyên số',
+                category: 'tech',
+                exampleEn: 'As digital natives, Gen Z teens master new tech very fast.',
+                exampleVi: 'Là người sinh ra trong thời đại số, Gen Z làm chủ công nghệ rất nhanh.',
+                wordFamily: 'digit (n), digital (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'digital_device',
+                word: 'digital / electronic device',
+                ipa: '/ˌel.ekˈtrɑː.nɪk dɪˈvaɪs/',
+                pos: 'noun phrase',
+                viet: 'Thiết bị kỹ thuật số / điện tử',
+                category: 'tech',
+                exampleEn: 'Teens spend hours using electronic devices for study and games.',
+                exampleVi: 'Thanh thiếu niên dành nhiều giờ dùng thiết bị điện tử để học và chơi game.',
+                wordFamily: 'device (n), electronic (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'experiment',
+                word: 'experiment',
+                ipa: '/ɪkˈsper.ə.mənt/',
+                pos: 'noun / verb',
+                viet: 'Cuộc thử nghiệm / Thử nghiệm',
+                category: 'views',
+                exampleEn: 'Parents should experiment with new ways to talk with their teens.',
+                exampleVi: 'Cha mẹ nên thử nghiệm các cách giao tiếp mới với con cái.',
+                wordFamily: 'experimental (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'platform',
+                word: 'social platform',
+                ipa: '/ˈsoʊ.ʃəl ˈplæt.fɔːrm/',
+                pos: 'noun phrase',
+                viet: 'Nền tảng mạng xã hội',
+                category: 'tech',
+                exampleEn: 'Teens use social platforms to express their personal views.',
+                exampleVi: 'Giới trẻ dùng các nền tảng mạng xã hội để thể hiện quan điểm cá nhân.',
+                wordFamily: 'platform (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'hire',
+                word: 'hire',
+                ipa: '/haɪr/',
+                pos: 'verb',
+                viet: 'Thuê, tuyển dụng',
+                category: 'views',
+                exampleEn: 'Companies often hire young people for their digital skills.',
+                exampleVi: 'Các công ty thường thuê người trẻ vì kỹ năng công nghệ của họ.',
+                wordFamily: 'hiring (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'immigration',
+                word: 'immigration',
+                ipa: '/ˌɪm.əˈɡreɪ.ʃən/',
+                pos: 'noun',
+                viet: 'Sự nhập cư',
+                category: 'views',
+                exampleEn: 'Immigration can broaden cultural awareness across generations.',
+                exampleVi: 'Nhập cư có thể mở rộng nhận thức văn hóa giữa các thế hệ.',
+                wordFamily: 'immigrate (v), immigrant (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'trad_view',
+                word: 'traditional view',
+                ipa: '/trəˈdɪʃ.ən.əl vjuː/',
+                pos: 'noun phrase',
+                viet: 'Quan điểm truyền thống',
+                category: 'views',
+                exampleEn: 'Older generations often hold traditional views about marriage.',
+                exampleVi: 'Thế hệ trước thường giữ quan điểm truyền thống về hôn nhân.',
+                wordFamily: 'tradition (n), traditional (adj), traditionally (adv)',
+                imageUrl: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'cultural_val',
+                word: 'cultural value',
+                ipa: '/ˈkʌl.tʃər.əl ˈvæl.juː/',
+                pos: 'noun phrase',
+                viet: 'Giá trị văn hóa',
+                category: 'views',
+                exampleEn: 'We should respect cultural values passed down from our ancestors.',
+                exampleVi: 'Chúng ta nên tôn trọng các giá trị văn hóa do tổ tiên truyền lại.',
+                wordFamily: 'culture (n), cultural (adj), culturally (adv)',
+                imageUrl: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'household_chore',
+                word: 'household chore',
+                ipa: '/ˈhaʊs.hoʊld tʃɔːr/',
+                pos: 'noun phrase',
+                viet: 'Công việc nhà',
+                category: 'family',
+                exampleEn: 'Teenagers are encouraged to help parents with household chores.',
+                exampleVi: 'Thanh thiếu niên được khuyến khích giúp đỡ cha mẹ việc nhà.',
+                wordFamily: 'household (n), chore (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'rudely',
+                word: 'rudely',
+                ipa: '/ˈruːd.li/',
+                pos: 'adv',
+                viet: 'Một cách thô lỗ, vô lễ',
+                category: 'views',
+                exampleEn: 'Talking back rudely to elders is considered disrespectful.',
+                exampleVi: 'Nói cãi lại vô lễ với người lớn tuổi bị coi là không tôn trọng.',
+                wordFamily: 'rude (adj), rudeness (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'control',
+                word: 'control',
+                ipa: '/kənˈtroʊl/',
+                pos: 'noun / verb',
+                viet: 'Sự kiểm soát / Kiểm soát',
+                category: 'family',
+                exampleEn: 'Parents try to control how much time teens spend online.',
+                exampleVi: 'Cha mẹ cố gắng kiểm soát thời gian con cái sử dụng mạng.',
+                wordFamily: 'controlling (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'limit',
+                word: 'limit / limited',
+                ipa: '/ˈlɪm.ɪt/ - /ˈlɪm.ɪ.t̬ɪd/',
+                pos: 'verb / adj',
+                viet: 'Giới hạn / Bị hạn chế',
+                category: 'family',
+                exampleEn: 'My screen time is limited to two hours a day.',
+                exampleVi: 'Thời gian dùng màn hình của tôi bị giới hạn 2 tiếng một ngày.',
+                wordFamily: 'limitation (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1508962914676-134849a727f0?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'screen_time',
+                word: 'screen time',
+                ipa: '/ˈskriːn ˌtaɪm/',
+                pos: 'noun phrase',
+                viet: 'Thời gian dùng màn hình',
+                category: 'tech',
+                exampleEn: 'Excessive screen time can lead to poor sleep and eye strain.',
+                exampleVi: 'Dùng màn hình quá nhiều có thể dẫn đến mất ngủ và mỏi mắt.',
+                wordFamily: 'screen (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'upset',
+                word: 'upset',
+                ipa: '/ʌpˈset/',
+                pos: 'adj / verb',
+                viet: 'Buồn bã, khó chịu / Làm ai buồn',
+                category: 'views',
+                exampleEn: 'My mother got upset when I talked back rudely.',
+                exampleVi: 'Mẹ tôi đã rất buồn khi tôi cãi lời vô lễ.',
+                wordFamily: 'upsetting (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1499209974431-9dac3ada00d7?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'hairstyle',
+                word: 'hairstyle',
+                ipa: '/ˈher.staɪl/',
+                pos: 'noun',
+                viet: 'Kiểu tóc',
+                category: 'tech',
+                exampleEn: 'Teens often choose fashionable hairstyles to express themselves.',
+                exampleVi: 'Thanh thiếu niên thường chọn kiểu tóc thời trang để thể hiện cá tính.',
+                wordFamily: 'hair (n), style (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1560869713-7d0a29430803?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'strict',
+                word: 'strict house rules',
+                ipa: '/strɪkt haʊs ruːlz/',
+                pos: 'noun phrase',
+                viet: 'Quy tắc gia đình nghiêm khắc',
+                category: 'family',
+                exampleEn: 'Living with strict house rules can make teens feel restricted.',
+                exampleVi: 'Sống với các quy tắc nhà nghiêm khắc có thể khiến giới trẻ cảm thấy gò bó.',
+                wordFamily: 'strict (adj), strictly (adv)',
+                imageUrl: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'individualism',
+                word: 'individualism',
+                ipa: '/ˌɪn.dəˈvɪdʒ.u.ə.lɪ.zəm/',
+                pos: 'noun',
+                viet: 'Chủ nghĩa cá nhân, sự độc lập',
+                category: 'views',
+                exampleEn: 'Gen Z values individualism and freedom of expression.',
+                exampleVi: 'Gen Z coi trọng chủ nghĩa cá nhân và sự tự do bày tỏ.',
+                wordFamily: 'individual (n/adj), individually (adv)',
+                imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'freedom',
+                word: 'freedom',
+                ipa: '/ˈfriː.dəm/',
+                pos: 'noun',
+                viet: 'Sự tự do',
+                category: 'views',
+                exampleEn: 'Teens want more freedom as they grow up and become independent.',
+                exampleVi: 'Giới trẻ muốn có nhiều tự do hơn khi lớn lên và trở nên độc lập.',
+                wordFamily: 'free (adj/v), freely (adv)',
+                imageUrl: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'competition',
+                word: 'competition',
+                ipa: '/ˌkɑːm.pəˈtɪʃ.ən/',
+                pos: 'noun',
+                viet: 'Cuộc thi, sự cạnh tranh',
+                category: 'views',
+                exampleEn: 'High academic competition causes stress among teenagers.',
+                exampleVi: 'Sự cạnh tranh học tập cao gây ra căng thẳng cho học sinh.',
+                wordFamily: 'compete (v), competitive (adj), competitively (adv)',
+                imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'permission',
+                word: 'permission / permit',
+                ipa: '/pɚˈmɪʃ.ən/ - /pɚˈmɪt/',
+                pos: 'noun / verb',
+                viet: 'Sự cho phép / Cho phép',
+                category: 'family',
+                exampleEn: 'My parents don\'t permit sleepovers on weekdays.',
+                exampleVi: 'Bố mẹ tôi không cho phép ngủ lại nhà bạn vào các ngày trong tuần.',
+                wordFamily: 'permissive (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'confidence',
+                word: 'confidence',
+                ipa: '/ˈkɑːn.fə.dəns/',
+                pos: 'noun',
+                viet: 'Sự tự do, lòng tin, sự tự tin',
+                category: 'views',
+                exampleEn: 'Encouragement from parents boosts children\'s self-confidence.',
+                exampleVi: 'Sự động viên từ cha mẹ làm tăng sự tự tin của con cái.',
+                wordFamily: 'confide (v), confident (adj), confidently (adv)',
+                imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'footsteps',
+                word: 'follow in one\'s footsteps',
+                ipa: '/ˈfɑː.loʊ ɪn wʌnz ˈfʊt.steps/',
+                pos: 'idiom / phrase',
+                viet: 'Nối nghiệp, tiếp bước ai',
+                category: 'phrases',
+                exampleEn: 'My parents wanted me to follow in their footsteps and become a doctor.',
+                exampleVi: 'Bố mẹ muốn tôi tiếp bước họ trở thành bác sĩ.',
+                wordFamily: 'footstep (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'lead_to',
+                word: 'lead to something',
+                ipa: '/liːd tuː ˈsʌm.θɪŋ/',
+                pos: 'verb phrase',
+                viet: 'Dẫn đến, gây ra điều gì',
+                category: 'phrases',
+                exampleEn: 'Lack of open communication may lead to serious conflicts.',
+                exampleVi: 'Thiếu giao tiếp cởi mở có thể dẫn đến mâu thuẫn nghiêm trọng.',
+                wordFamily: 'lead (v), leader (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'adapt_to',
+                word: 'adapt to something',
+                ipa: '/əˈdæpt tuː/',
+                pos: 'verb phrase',
+                viet: 'Thích nghi với điều gì',
+                category: 'phrases',
+                exampleEn: 'It is hard to adapt to old rules when everything is changing.',
+                exampleVi: 'Rất khó để thích nghi với các quy tắc cũ khi mọi thứ đang thay đổi.',
+                wordFamily: 'adaptation (n), adaptable (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'addicted_to',
+                word: 'be addicted to something',
+                ipa: '/biː əˈdɪk.tɪd tuː/',
+                pos: 'adj phrase',
+                viet: 'Nghiện cái gì (game, mạng xã hội)',
+                category: 'phrases',
+                exampleEn: 'He is addicted to online games, causing conflict with parents.',
+                exampleVi: 'Cậu ấy nghiện game online, gây xung đột với cha mẹ.',
+                wordFamily: 'addict (n), addiction (n), addictive (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'absorbed_in',
+                word: 'be absorbed in something',
+                ipa: '/biː əbˈzɔːrbd ɪn/',
+                pos: 'adj phrase',
+                viet: 'Say mê, chìm đắm vào cái gì',
+                category: 'phrases',
+                exampleEn: 'Teens can be absorbed in music or gaming for hours.',
+                exampleVi: 'Giới trẻ có thể say mê âm nhạc hoặc chơi game suốt nhiều giờ.',
+                wordFamily: 'absorb (v), absorption (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'dependent_on',
+                word: 'be dependent on / independent of',
+                ipa: '/dɪˈpen.dənt ɑːn/',
+                pos: 'adj phrase',
+                viet: 'Phụ thuộc vào / Độc lập với',
+                category: 'phrases',
+                exampleEn: 'Being too dependent on parents limits your personal growth.',
+                exampleVi: 'Quá phụ thuộc vào cha mẹ sẽ hạn chế sự trưởng thành cá nhân.',
+                wordFamily: 'depend (v), dependence (n), independence (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'deal_with',
+                word: 'deal with something',
+                ipa: '/diːl wɪð/',
+                pos: 'verb phrase',
+                viet: 'Đối phó, giải quyết việc gì',
+                category: 'phrases',
+                exampleEn: 'How do you deal with family arguments about school work?',
+                exampleVi: 'Bạn giải quyết các mâu thuẫn gia đình về chuyện học hành thế nào?',
+                wordFamily: 'dealer (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'rely_on',
+                word: 'rely on somebody / something',
+                ipa: '/rɪˈlaɪ ɑːn/',
+                pos: 'verb phrase',
+                viet: 'Phụ thuộc, tin tưởng vào ai/cái gì',
+                category: 'phrases',
+                exampleEn: 'Young people rely on online platforms for news.',
+                exampleVi: 'Người trẻ phụ thuộc vào các nền tảng mạng để đọc tin tức.',
+                wordFamily: 'reliable (adj), reliance (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'grow_up',
+                word: 'grow up',
+                ipa: '/ɡroʊ ʌp/',
+                pos: 'phrasal verb',
+                viet: 'Lớn lên, trưởng thành',
+                category: 'phrases',
+                exampleEn: 'Teenagers want more space as they grow up.',
+                exampleVi: 'Thanh thiếu niên muốn có nhiều không gian riêng hơn khi lớn lên.',
+                wordFamily: 'growth (n), grown (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'point_of_view',
+                word: 'point of view',
+                ipa: '/pɔɪnt əv vjuː/',
+                pos: 'noun phrase',
+                viet: 'Quan điểm, góc nhìn',
+                category: 'phrases',
+                exampleEn: 'Listening to each other\'s point of view helps reduce conflict.',
+                exampleVi: 'Lắng nghe quan điểm của nhau giúp giảm xung đột.',
+                wordFamily: 'viewpoint (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'complain_about',
+                word: 'complain about something',
+                ipa: '/kəmˈpleɪn əˈbaʊt/',
+                pos: 'verb phrase',
+                viet: 'Phàn nàn về điều gì',
+                category: 'phrases',
+                exampleEn: 'Parents often complain about their kids\' messy bedrooms.',
+                exampleVi: 'Cha mẹ thường phàn nàn về căn phòng bừa bộn của con cái.',
+                wordFamily: 'complaint (n)',
+                imageUrl: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'consist_of',
+                word: 'consist of',
+                ipa: '/kənˈsɪst əv/',
+                pos: 'verb phrase',
+                viet: 'Bao gồm có',
+                category: 'phrases',
+                exampleEn: 'An extended family usually consists of three generations.',
+                exampleVi: 'Một đại gia đình thường bao gồm 3 thế hệ.',
+                wordFamily: 'consistent (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=500&auto=format&fit=crop'
+            },
+            {
+                id: 'force_sb',
+                word: 'force somebody to do something',
+                ipa: '/fɔːrs tuː duː/',
+                pos: 'verb phrase',
+                viet: 'Ép buộc ai làm điều gì',
+                category: 'phrases',
+                exampleEn: 'Parents shouldn\'t force kids to choose traditional careers.',
+                exampleVi: 'Cha mẹ không nên ép con cái chọn các ngành nghề truyền thống.',
+                wordFamily: 'forceful (adj)',
+                imageUrl: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&auto=format&fit=crop'
+            }
+        ];
+
+        const GRAMMAR_DATA = [
+            {
+                id: 1,
+                prompt: "This warning sign indicates that you ________ step on the grass.",
+                options: ["shouldn't", "mustn't", "don't have to", "ought not to"],
+                correct: "mustn't",
+                explanation: "'Mustn't' diễn tả sự cấm đoán tuyệt đối theo quy định/biển báo (không được phép bước lên cỏ)."
+            },
+            {
+                id: 2,
+                prompt: "In our house, I ________ do the dishes after dinner. It's a strict rule.",
+                options: ["must", "have to", "should", "ought to"],
+                correct: "have to",
+                explanation: "'Have to' diễn tả sự bắt buộc khách quan do quy định gia đình đề ra."
+            },
+            {
+                id: 3,
+                prompt: "Teenagers ________ always agree with their parents, but they should try to listen.",
+                options: ["mustn't", "shouldn't", "don't have to", "ought to"],
+                correct: "don't have to",
+                explanation: "'Don't have to' mang nghĩa không bắt buộc / không cần thiết."
+            },
+            {
+                id: 4,
+                prompt: "You ________ play loud music at night. The neighbors will complain.",
+                options: ["can't", "mustn't", "don't have to", "shouldn't"],
+                correct: "shouldn't",
+                explanation: "'Shouldn't' dùng để đưa ra lời khuyên không nên làm điều gì đó."
+            },
+            {
+                id: 5,
+                prompt: "David looks upset. He ________ have had a serious argument with his father.",
+                options: ["must", "should", "could", "had to"],
+                correct: "must",
+                explanation: "'Must' dùng cho phỏng đoán chắc chắn có cơ sở ở hiện tại/quá khứ."
+            },
+            {
+                id: 6,
+                prompt: "My mother wanted to become a dancer, but she ________ follow in her parents' footsteps.",
+                options: ["had to", "must", "shouldn't", "has to"],
+                correct: "had to",
+                explanation: "Hành động bắt buộc trong quá khứ dùng 'had to' (quá khứ của have to)."
+            },
+            {
+                id: 7,
+                prompt: "You ________ wear shorts to school. It's against the school rules.",
+                options: ["should", "have to", "mustn't", "don't have to"],
+                correct: "mustn't",
+                explanation: "'Mustn't' diễn tả hành vi vi phạm nội quy trường học (bị cấm)."
+            }
+        ];
+
+        let gameState = {
+            currentTab: 'flashcards',
+            soundEnabled: true,
+            playerLevel: 1,
+            playerXp: 0,
+            maxXp: 100,
+            streak: 0,
+            masteredWords: [],
+            currentFlashcardFiltered: [...VOCAB_DATA],
+            currentCardIdx: 0,
+            isFlipped: false,
+            quizQuestions: [],
+            quizCurrentIdx: 0,
+            quizScore: 0,
+            quizCombo: 0,
+            quizTimer: null,
+            quizTimeLeft: 15,
+            matchCards: [],
+            matchSelected: [],
+            matchScore: 0,
+            grammarIdx: 0
+        };
+
+        function switchTab(tabId) {
+            gameState.currentTab = tabId;
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`view-${tabId}`);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-rajdhani font-bold text-sm text-gray-400 hover:text-white hover:bg-slate-800/60 transition-all duration-300";
+            });
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn active flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-rajdhani font-bold text-sm transition-all duration-300 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 shadow-lg shadow-cyan-500/20";
+            }
+
+            if (tabId === 'match') initMatchGame();
+            if (tabId === 'dictionary') renderDictionaryList();
+            if (tabId === 'grammar') renderGrammarQuestion();
+        }
+
+        function toggleSound() {
+            gameState.soundEnabled = !gameState.soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            if (gameState.soundEnabled) {
+                icon.className = "fa-solid fa-volume-high";
+            } else {
+                icon.className = "fa-solid fa-volume-xmark text-red-400";
+            }
+        }
+
+        function addXp(amount) {
+            gameState.playerXp += amount;
+            if (gameState.playerXp >= gameState.maxXp) {
+                gameState.playerXp -= gameState.maxXp;
+                gameState.playerLevel += 1;
+                gameState.maxXp = Math.floor(gameState.maxXp * 1.3);
+                playSound('level');
+                updateRankTitle();
+            }
+            updateHudUI();
+        }
+
+        function updateRankTitle() {
+            const titles = ["CYBER NOVICE", "GEN Z REBEL", "GAP BRIDGER", "MODAL MASTER", "CYBER LEGEND"];
+            const idx = Math.min(Math.floor((gameState.playerLevel - 1) / 2), titles.length - 1);
+            document.getElementById('playerRankTitle').innerText = titles[idx];
+        }
+
+        function updateHudUI() {
+            document.getElementById('playerLevel').innerText = gameState.playerLevel;
+            document.getElementById('xpText').innerText = `${gameState.playerXp} / ${gameState.maxXp}`;
+            const pct = Math.min(100, Math.floor((gameState.playerXp / gameState.maxXp) * 100));
+            document.getElementById('xpBar').style.width = `${pct}%`;
+            document.getElementById('streakCount').innerText = gameState.streak;
+        }
+
+        function filterFlashcards() {
+            const filter = document.getElementById('flashcardFilter').value;
+            if (filter === 'all') {
+                gameState.currentFlashcardFiltered = [...VOCAB_DATA];
+            } else if (filter === 'mastered') {
+                gameState.currentFlashcardFiltered = VOCAB_DATA.filter(item => gameState.masteredWords.includes(item.id));
+            } else {
+                gameState.currentFlashcardFiltered = VOCAB_DATA.filter(item => item.category === filter);
+            }
+            gameState.currentCardIdx = 0;
+            renderCurrentCard();
+        }
+
+        function renderCurrentCard() {
+            const list = gameState.currentFlashcardFiltered;
+            if (list.length === 0) {
+                document.getElementById('cardWord').innerText = "KHÔNG CÓ TỪ";
+                document.getElementById('cardVietMeaning').innerText = "Vui lòng chọn bộ lọc khác";
+                return;
+            }
+
+            const card = list[gameState.currentCardIdx];
+            document.getElementById('currentCardIdx').innerText = gameState.currentCardIdx + 1;
+            document.getElementById('totalCardsCount').innerText = list.length;
+
+            document.getElementById('cardCategoryTag').innerText = card.category.toUpperCase();
+            
+            const cardImg = document.getElementById('cardImage');
+            if (cardImg) {
+                cardImg.src = card.imageUrl;
+            }
+
+            document.getElementById('cardWord').innerText = card.word.toUpperCase();
+            document.getElementById('cardPos').innerText = card.pos;
+            document.getElementById('cardIpa').innerText = card.ipa;
+
+            document.getElementById('cardVietMeaning').innerText = card.viet;
+            document.getElementById('cardExampleEn').innerText = `"${card.exampleEn}"`;
+            document.getElementById('cardExampleVi').innerText = `(${card.exampleVi})`;
+
+            if (card.wordFamily) {
+                document.getElementById('cardWordFamilyContainer').classList.remove('hidden');
+                document.getElementById('cardWordFamily').innerText = card.wordFamily;
+            } else {
+                document.getElementById('cardWordFamilyContainer').classList.add('hidden');
+            }
+
+            const isMastered = gameState.masteredWords.includes(card.id);
+            const masteredBtn = document.getElementById('masteredBtn');
+            const icon = document.getElementById('masteredStarIcon');
+            if (isMastered) {
+                masteredBtn.className = "py-3 px-5 rounded-2xl bg-amber-500 text-black font-rajdhani font-bold text-sm flex items-center gap-2 transition";
+                icon.className = "fa-solid fa-star text-lg";
+                document.getElementById('masteredBtnText').innerText = "ĐÃ THÀNH THỤC";
+            } else {
+                masteredBtn.className = "py-3 px-5 rounded-2xl bg-amber-500/10 border border-amber-500/40 text-amber-400 hover:bg-amber-500 hover:text-black font-rajdhani font-bold text-sm flex items-center gap-2 transition";
+                icon.className = "fa-regular fa-star text-lg";
+                document.getElementById('masteredBtnText').innerText = "THÀNH THỤC";
+            }
+
+            if (gameState.isFlipped) {
+                document.getElementById('flashcardInner').classList.remove('rotate-y-180');
+                gameState.isFlipped = false;
+            }
+        }
+
+        function flipCard() {
+            playSound('flip');
+            const cardInner = document.getElementById('flashcardInner');
+            gameState.isFlipped = !gameState.isFlipped;
+            if (gameState.isFlipped) {
+                cardInner.classList.add('rotate-y-180');
+            } else {
+                cardInner.classList.remove('rotate-y-180');
+            }
+        }
+
+        function prevCard() {
+            if (gameState.currentFlashcardFiltered.length === 0) return;
+            gameState.currentCardIdx = (gameState.currentCardIdx - 1 + gameState.currentFlashcardFiltered.length) % gameState.currentFlashcardFiltered.length;
+            renderCurrentCard();
+        }
+
+        function nextCard() {
+            if (gameState.currentFlashcardFiltered.length === 0) return;
+            gameState.currentCardIdx = (gameState.currentCardIdx + 1) % gameState.currentFlashcardFiltered.length;
+            renderCurrentCard();
+        }
+
+        function toggleMasteredCurrentWord() {
+            const list = gameState.currentFlashcardFiltered;
+            if (list.length === 0) return;
+            const card = list[gameState.currentCardIdx];
+            const idx = gameState.masteredWords.indexOf(card.id);
+            if (idx >= 0) {
+                gameState.masteredWords.splice(idx, 1);
+            } else {
+                gameState.masteredWords.push(card.id);
+                addXp(15);
+                playSound('correct');
+            }
+            renderCurrentCard();
+        }
+
+        function speakCurrentWord(e) {
+            if (e) e.stopPropagation();
+            const list = gameState.currentFlashcardFiltered;
+            if (list.length === 0) return;
+            speakWord(list[gameState.currentCardIdx].word);
+        }
+
+        function speakWord(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'en-US';
+                u.rate = 0.9;
+                window.speechSynthesis.speak(u);
+            }
+        }
+
+        function startQuizGame() {
+            document.getElementById('quizStartScreen').classList.add('hidden');
+            document.getElementById('quizResultScreen').classList.add('hidden');
+            document.getElementById('quizPlayScreen').classList.remove('hidden');
+            document.getElementById('quizPlayScreen').classList.add('flex');
+
+            gameState.quizCurrentIdx = 0;
+            gameState.quizScore = 0;
+            gameState.quizCombo = 0;
+            
+            gameState.quizQuestions = VOCAB_DATA.slice().sort(() => 0.5 - Math.random()).slice(0, 10).map(item => {
+                const wrongArr = VOCAB_DATA.filter(v => v.id !== item.id).sort(() => 0.5 - Math.random()).slice(0, 3).map(v => v.viet);
+                const opts = [item.viet, ...wrongArr].sort(() => 0.5 - Math.random());
+                return {
+                    question: `Từ "${item.word.toUpperCase()}" trong tiếng Việt có nghĩa là gì?`,
+                    correct: item.viet,
+                    options: opts
+                };
+            });
+
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            if (gameState.quizCurrentIdx >= gameState.quizQuestions.length) {
+                finishQuizGame();
+                return;
+            }
+
+            const q = gameState.quizQuestions[gameState.quizCurrentIdx];
+            document.getElementById('quizCurrentNum').innerText = gameState.quizCurrentIdx + 1;
+            document.getElementById('quizComboNum').innerText = gameState.quizCombo;
+            document.getElementById('quizQuestionText').innerText = q.question;
+
+            const optsContainer = document.getElementById('quizOptionsContainer');
+            optsContainer.innerHTML = '';
+
+            q.options.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = "py-3 px-4 bg-slate-900 border border-slate-700 hover:border-cyan-400 rounded-2xl text-left text-sm font-semibold text-gray-200 hover:text-white transition flex items-center justify-between";
+                btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle text-gray-600"></i>`;
+                btn.onclick = () => selectQuizAnswer(opt, btn);
+                optsContainer.appendChild(btn);
+            });
+
+            clearInterval(gameState.quizTimer);
+            gameState.quizTimeLeft = 15;
+            document.getElementById('quizTimerText').innerText = 15;
+            document.getElementById('quizTimerBar').style.width = '100%';
+
+            gameState.quizTimer = setInterval(() => {
+                gameState.quizTimeLeft--;
+                document.getElementById('quizTimerText').innerText = gameState.quizTimeLeft;
+                document.getElementById('quizTimerBar').style.width = `${(gameState.quizTimeLeft / 15) * 100}%`;
+
+                if (gameState.quizTimeLeft <= 0) {
+                    clearInterval(gameState.quizTimer);
+                    playSound('wrong');
+                    gameState.quizCombo = 0;
+                    gameState.quizCurrentIdx++;
+                    renderQuizQuestion();
+                }
+            }, 1000);
+        }
+
+        function selectQuizAnswer(chosen, btnEl) {
+            clearInterval(gameState.quizTimer);
+            const q = gameState.quizQuestions[gameState.quizCurrentIdx];
+
+            if (chosen === q.correct) {
+                playSound('correct');
+                btnEl.className = "py-3 px-4 bg-emerald-500/20 border-2 border-emerald-500 rounded-2xl text-left text-sm font-semibold text-emerald-300 flex items-center justify-between";
+                gameState.quizScore++;
+                gameState.quizCombo++;
+                gameState.streak++;
+                addXp(20);
+            } else {
+                playSound('wrong');
+                btnEl.className = "py-3 px-4 bg-pink-500/20 border-2 border-pink-500 rounded-2xl text-left text-sm font-semibold text-pink-300 flex items-center justify-between";
+                gameState.quizCombo = 0;
+            }
+
+            setTimeout(() => {
+                gameState.quizCurrentIdx++;
+                renderQuizQuestion();
+            }, 800);
+        }
+
+        function finishQuizGame() {
+            clearInterval(gameState.quizTimer);
+            document.getElementById('quizPlayScreen').classList.add('hidden');
+            document.getElementById('quizPlayScreen').classList.remove('flex');
+            document.getElementById('quizResultScreen').classList.remove('hidden');
+
+            const acc = Math.round((gameState.quizScore / 10) * 100);
+            document.getElementById('resAccuracy').innerText = `${acc}%`;
+            document.getElementById('resScore').innerText = `${gameState.quizScore} / 10`;
+            document.getElementById('resXpGained').innerText = `+${gameState.quizScore * 20} XP`;
+        }
+
+        function initMatchGame() {
+            const grid = document.getElementById('matchGrid');
+            grid.innerHTML = '';
+            gameState.matchSelected = [];
+            gameState.matchScore = 0;
+            document.getElementById('matchScore').innerText = 0;
+
+            const sample = VOCAB_DATA.slice().sort(() => 0.5 - Math.random()).slice(0, 4);
+            let cards = [];
+            sample.forEach(item => {
+                cards.push({ id: item.id, text: item.word, type: 'en' });
+                cards.push({ id: item.id, text: item.viet, type: 'vi' });
+            });
+            cards.sort(() => 0.5 - Math.random());
+
+            cards.forEach((card) => {
+                const btn = document.createElement('button');
+                btn.className = "match-card p-4 h-24 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-center font-bold text-xs sm:text-sm text-gray-200 hover:border-pink-500 transition shadow-lg";
+                btn.innerText = card.text;
+                btn.dataset.id = card.id;
+                btn.onclick = () => handleMatchClick(btn, card);
+                grid.appendChild(btn);
+            });
+        }
+
+        function handleMatchClick(btn, card) {
+            if (btn.classList.contains('matched') || gameState.matchSelected.some(s => s.btn === btn)) return;
+
+            btn.classList.add('border-pink-500', 'bg-pink-500/10');
+            playSound('flip');
+            gameState.matchSelected.push({ btn, card });
+
+            if (gameState.matchSelected.length === 2) {
+                const [first, second] = gameState.matchSelected;
+                if (first.card.id === second.card.id && first.card.type !== second.card.type) {
+                    playSound('correct');
+                    first.btn.className = "p-4 h-24 bg-emerald-500/20 border-2 border-emerald-500 rounded-2xl flex items-center justify-center text-center font-bold text-xs text-emerald-300 matched opacity-50 cursor-default";
+                    second.btn.className = "p-4 h-24 bg-emerald-500/20 border-2 border-emerald-500 rounded-2xl flex items-center justify-center text-center font-bold text-xs text-emerald-300 matched opacity-50 cursor-default";
+                    gameState.matchScore += 100;
+                    document.getElementById('matchScore').innerText = gameState.matchScore;
+                    addXp(25);
+                    gameState.matchSelected = [];
+                } else {
+                    playSound('wrong');
+                    setTimeout(() => {
+                        first.btn.className = "match-card p-4 h-24 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-center font-bold text-xs sm:text-sm text-gray-200 hover:border-pink-500 transition shadow-lg";
+                        second.btn.className = "match-card p-4 h-24 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-center font-bold text-xs sm:text-sm text-gray-200 hover:border-pink-500 transition shadow-lg";
+                        gameState.matchSelected = [];
+                    }, 600);
+                }
+            }
+        }
+
+        function renderGrammarQuestion() {
+            const item = GRAMMAR_DATA[gameState.grammarIdx];
+            document.getElementById('grammarCurrentIdx').innerText = gameState.grammarIdx + 1;
+            document.getElementById('grammarTotalCount').innerText = GRAMMAR_DATA.length;
+            document.getElementById('grammarQuestionPrompt').innerText = item.prompt;
+            document.getElementById('grammarExplanationBox').classList.add('hidden');
+            document.getElementById('grammarStatusTag').className = "text-xs px-2.5 py-1 rounded-full bg-slate-800 text-gray-400 font-bold";
+            document.getElementById('grammarStatusTag').innerText = "Chưa trả lời";
+
+            const grid = document.getElementById('grammarOptionsGrid');
+            grid.innerHTML = '';
+
+            item.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "py-3 px-4 bg-slate-950 border border-slate-800 hover:border-purple-500 rounded-2xl font-orbitron font-bold text-xs text-purple-300 hover:text-white transition";
+                btn.innerText = opt;
+                btn.onclick = () => checkGrammarAnswer(opt, item);
+                grid.appendChild(btn);
+            });
+        }
+
+        function checkGrammarAnswer(chosen, item) {
+            const expBox = document.getElementById('grammarExplanationBox');
+            const expText = document.getElementById('grammarExplanationText');
+            const statusTag = document.getElementById('grammarStatusTag');
+
+            expBox.classList.remove('hidden');
+            expText.innerText = item.explanation;
+
+            if (chosen === item.correct) {
+                playSound('correct');
+                statusTag.className = "text-xs px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold";
+                statusTag.innerText = "Chính xác! +20 XP";
+                addXp(20);
+            } else {
+                playSound('wrong');
+                statusTag.className = "text-xs px-2.5 py-1 rounded-full bg-pink-500/20 text-pink-400 border border-pink-500/40 font-bold";
+                statusTag.innerText = "Chưa đúng";
+            }
+        }
+
+        function prevGrammar() {
+            gameState.grammarIdx = (gameState.grammarIdx - 1 + GRAMMAR_DATA.length) % GRAMMAR_DATA.length;
+            renderGrammarQuestion();
+        }
+
+        function nextGrammar() {
+            gameState.grammarIdx = (gameState.grammarIdx + 1) % GRAMMAR_DATA.length;
+            renderGrammarQuestion();
+        }
+
+        function renderDictionaryList() {
+            const query = document.getElementById('vocabSearchInput').value.toLowerCase();
+            const container = document.getElementById('dictListContainer');
+            container.innerHTML = '';
+
+            const filtered = VOCAB_DATA.filter(item => 
+                item.word.toLowerCase().includes(query) || item.viet.toLowerCase().includes(query)
+            );
+
+            filtered.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "p-3 bg-slate-950 rounded-2xl border border-slate-800 flex items-center justify-between gap-3 hover:border-cyan-500/30 transition";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img src="${item.imageUrl}" alt="${item.word}" class="w-12 h-12 rounded-xl object-cover border border-cyan-500/30 shrink-0" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511895426328-dc8714191300?w=500&auto=format&fit=crop';">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-sm text-cyan-300 font-orbitron">${item.word}</span>
+                                <span class="text-[10px] text-purple-400 italic">(${item.pos})</span>
+                            </div>
+                            <div class="text-xs text-gray-300 font-medium">${item.viet}</div>
+                            ${item.wordFamily ? `<div class="text-[10px] text-gray-500 mt-0.5">Family: ${item.wordFamily}</div>` : ''}
+                        </div>
+                    </div>
+                    <button onclick="speakWord('${item.word}')" class="w-8 h-8 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center hover:bg-cyan-500 hover:text-black transition shrink-0">
+                        <i class="fa-solid fa-volume-high text-xs"></i>
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        window.onload = function() {
+            renderCurrentCard();
+            updateHudUI();
+        };
+    </script>
+</body>
+</html>
